@@ -1,11 +1,11 @@
 {
-  "name": "chat-kit",
+  "name": "chat-ai-kit",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "PORT=4010 next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "PORT=4010 next start",
     "lint": "next lint"
   },
   "dependencies": {
