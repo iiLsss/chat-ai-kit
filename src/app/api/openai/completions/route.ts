@@ -8,6 +8,17 @@ export async function handleStream(res: Response) {
   const encoder = new TextEncoder()
   const decoder = new TextDecoder()
 
+  const contentType = res.headers.get("Content-Type") ?? "";
+  if (!contentType.includes("stream")) {
+    const content = await (
+      await res.text()
+    ).replace(/provided:.*. You/, "provided: ***. You");
+    console.log("[Stream] error ", content);
+    return "```json\n" + content + "```";
+  }
+
+  // const body = await res.text()
+  // console.log(body)
   let counter = 0
   
   const stream = new ReadableStream({
@@ -21,10 +32,11 @@ export async function handleStream(res: Response) {
           }
           try {
             const json = JSON.parse(data)
-            const text = json.choices[0].text
-            if (counter < 2 && (text.match(/\n/) || []).length) {
-              return
-            }
+            console.log(json)
+            let text = json?.choices[0]?.delta?.content
+            // if (json?.choices[0]?.finish_reason === 'stop') {
+            //   text = JSON.stringify(json)
+            // }
             const queue = encoder.encode(text)
             controller.enqueue(queue)
             counter++
@@ -40,7 +52,7 @@ export async function handleStream(res: Response) {
 
       // https://web.dev/streams/#asynchronous-iteration
       for await (const chunk of res.body as any) {
-        parser.feed(decoder.decode(chunk))
+        parser.feed(decoder.decode(chunk, { stream: true }))
       }
     }
   })
@@ -55,14 +67,20 @@ export async function handleStream(res: Response) {
  */
 
 export async function POST(request: NextRequest) {
+ 
   try {
-    const res = await requestOpenAI(request, 'completions')
+    const res = await requestOpenAI(request, 'chat/completions')
     // TODO: 判断是否stream
     const stream = await handleStream(res)
     return new Response(stream)
   } catch (error) {
     // TODO: 错误日志规范
-    console.error('')
-    return new Response()
+    console.error(error)
+    return new Response(
+      ["```json\n", JSON.stringify(error, null, "  "), "\n```"].join(""),
+    );
   }
 }
+
+export const runtime = "edge";
+

@@ -2,20 +2,21 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
 import Image from 'next/image'
 import sendIcon from '@/assets/icon/send.svg'
-const InputBox = () => {
+
+type Props = {
+  onSubmit: (val:string) => void
+}
+
+const InputBox: React.FC<Props> = ({onSubmit}) => {
 
   const [value, setValue] = useState('')
 
   const handleSubmit = async () => {
     console.log(value)
-    // const res = sendMessage({
-      
-    // })
-    console.log()
+    onSubmit(value)
   }
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(e)
     setValue(e.target.value)
   }
 
@@ -35,8 +36,8 @@ const InputBox = () => {
         className='flex-1 p-1 resize-none outline-0 text-neutral-600'
         onKeyDown={handleKeyDown}
       />
-      <div className='flex items-center justify-center w-8 h-8 mr-2 cursor-pointer'>
-        <Image className='w-6 h-6 text-neutral-950' src={sendIcon} alt='send' />
+      <div onClick={handleSubmit} className='flex items-center justify-center w-8 h-8 mr-2 cursor-pointer'>
+        <Image className='w-6 h-6' src={sendIcon} alt='send' />
       </div>
     </div>
   )

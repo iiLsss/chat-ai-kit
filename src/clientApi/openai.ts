@@ -2,7 +2,7 @@ import { SendMessageBody } from '../types/openai'
 
 type SendMessageOptions = {
   onMessage: (val: string) => void
-  cancelFetch: (func: () => void) => void
+  cancelFetch?: (func: () => void) => void
 }
 type SendMessage = (body: SendMessageBody , option: SendMessageOptions ) => void
 
@@ -21,17 +21,25 @@ export const sendMessage: SendMessage = async (body: SendMessageBody, option) =>
   const signal = controller.signal;
 
   // const 
-
+  console.log(body)
   const response = await fetch('/api/openai/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: body && JSON.stringify(body),
-    signal
+    signal,
+
   })
 
   if (!response.ok) {
     throw new Error(response.statusText);
   }
-  console.log()
   const data = response.body;
+  let responseText = "";
+  console.log(data)
+  // const reader = res.body?.getReader();
+
   if (!data) {
     return;
   }
@@ -39,12 +47,18 @@ export const sendMessage: SendMessage = async (body: SendMessageBody, option) =>
     const reader = data.getReader();
     const decoder = new TextDecoder();
     let done = false;
-  
+    
     while (!done) {
       const { value, done: doneReading } = await reader.read();
       done = doneReading;
-      const chunkValue = decoder.decode(value);
-      onMessage(chunkValue)
+      const chunkValue = decoder.decode(value,  { stream: true });
+      // try {
+      //   let info = JSON.parse(chunkValue)
+      // } catch (err){
+        responseText +=chunkValue
+        onMessage(responseText)
+      // }
+     
     }
   } else {
     // onMessage(data)

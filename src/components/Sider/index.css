@@ -1,0 +1,3 @@
+.session-item:hover .session-item-delete{
+  display: block;
+}

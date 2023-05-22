@@ -1,18 +1,11 @@
-// import Image from 'next/image'
-import Sider from '@/components/Sider'
 import Header from '@/components/Header'
-import Chat from '@/components/Chat'
-import Layout from '@/components/Layout'
+import Main from '@/components/Main'
+
 export default function Home() {
   return (
-    <main className='w-full h-screen'>
+    <main className='w-full h-screen text-stone-900'>
       <Header />
-
-      <Layout 
-        slider={<Sider />}
-      >
-        <Chat />
-      </Layout>
+      <Main />
     </main>
   )
 }

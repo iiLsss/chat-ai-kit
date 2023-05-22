@@ -8,8 +8,14 @@ import MarkDown from '../MarkDown'
 
 const Chat = () =>{
 
-  const { sessionList, currentSessionId } = useChatStore();
+  const { sessionList, currentSessionId, getSessionAnswer} = useChatStore();
   const message = sessionList.get(currentSessionId)?.messages || [];
+
+ 
+  const handleSubmit = (val:string) => {
+    getSessionAnswer(val)
+  }
+
   return (
     <div className='flex flex-col items-center justify-between w-full h-full'>
       <div className='flex-1 w-9/12 overflow-auto'>
@@ -21,7 +27,7 @@ const Chat = () =>{
           ))
         }
       </div>
-      <InputBox  />
+      <InputBox onSubmit={handleSubmit}  />
     </div>
   )
 }
