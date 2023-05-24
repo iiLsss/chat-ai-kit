@@ -9,7 +9,7 @@ const Layout: React.FC<PropsWithChildren<Props>> = (props) => {
   return (
     <section className="w-full h-[calc(100vh-56px)] flex">
       {props.slider}
-      <div className="w-full h-full p-2">
+      <div className="w-full h-full">
         {props.children}
       </div>
     </section>

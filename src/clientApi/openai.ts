@@ -21,7 +21,6 @@ export const sendMessage: SendMessage = async (body: SendMessageBody, option) =>
   const signal = controller.signal;
 
   // const 
-  console.log(body)
   const response = await fetch('/api/openai/completions', {
     method: 'POST',
     headers: {
@@ -37,7 +36,7 @@ export const sendMessage: SendMessage = async (body: SendMessageBody, option) =>
   }
   const data = response.body;
   let responseText = "";
-  console.log(data)
+  // console.log(data)
   // const reader = res.body?.getReader();
 
   if (!data) {

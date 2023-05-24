@@ -10,8 +10,8 @@ import RemarkGfm from "remark-gfm";
 // import RemarkToc from 'remark-toc'
 // import RemarkSlug from 'remark-slug'
 import CodeBlock from './CodeBlock'
-
 import 'katex/dist/katex.min.css'
+import './markdown.css'
 
 
 type MarkDownProps = {

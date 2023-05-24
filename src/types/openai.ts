@@ -1,6 +1,6 @@
 
 // 消息体
-export interface messages {
+export interface Messages {
   role: string
   content: string
   name?: string
@@ -8,7 +8,7 @@ export interface messages {
 // completions接口 入参
 export interface SendMessageBody {
   model: string
-  messages: messages[]
+  messages: Messages[]
   temperature?: number
   top_p?: number
   n?: number
@@ -20,4 +20,9 @@ export interface SendMessageBody {
   logit_bias?: [] 
   user?: string
 }
-// 
+
+// 常量角色
+export enum Role  {
+  USER ='user',
+  ASSISTANT = 'assistant'
+}

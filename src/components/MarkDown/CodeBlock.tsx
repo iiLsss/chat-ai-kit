@@ -33,6 +33,7 @@ const CodeBlock: React.FC<CodeProps> = ({
 				{...props}
 				style={oneLight}
 				language={match[1]}
+				wrapLongLines={true}
 				PreTag='div'>
 				{String(children).replace(/\n$/, '')}
 			</SyntaxHighlighter>
