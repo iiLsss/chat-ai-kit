@@ -26,3 +26,34 @@ export enum Role  {
   USER ='user',
   ASSISTANT = 'assistant'
 }
+
+export interface MessageItem {
+	id: string
+	object?: string
+	created?: number
+	role: Role
+	content: string
+	finish_reason?: string
+  status?: MessageStatus
+  question?: string
+}
+
+export interface Session {
+	id: string
+	title: string
+  model: string
+	// createTime: string
+	messages: MessageItem[]
+}
+
+// 消息状态
+export enum MessageStatus {
+  // 收取中
+  RUNNING = 'running',
+  // 成功
+  SUCCESS = 'success',
+  // 失败
+  ERROR = 'error',
+  // 暂停
+  PAUSE = 'pause'
+}

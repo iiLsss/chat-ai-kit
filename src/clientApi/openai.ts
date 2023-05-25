@@ -2,6 +2,7 @@ import { SendMessageBody } from '../types/openai'
 
 type SendMessageOptions = {
   onMessage: (val: string) => void
+  onSuccess: () => void
   cancelFetch?: (func: () => void) => void
 }
 type SendMessage = (body: SendMessageBody , option: SendMessageOptions ) => void
@@ -16,7 +17,7 @@ const defaultBody = {
  * @returns 
  */
 export const sendMessage: SendMessage = async (body: SendMessageBody, option) => {
-  const { onMessage, cancelFetch } = option
+  const { onMessage, cancelFetch, onSuccess } = option
   const controller = new AbortController();
   const signal = controller.signal;
 
@@ -28,7 +29,6 @@ export const sendMessage: SendMessage = async (body: SendMessageBody, option) =>
     },
     body: body && JSON.stringify(body),
     signal,
-
   })
 
   if (!response.ok) {
@@ -57,8 +57,8 @@ export const sendMessage: SendMessage = async (body: SendMessageBody, option) =>
         responseText +=chunkValue
         onMessage(responseText)
       // }
-     
     }
+    onSuccess && onSuccess()
   } else {
     // onMessage(data)
   }

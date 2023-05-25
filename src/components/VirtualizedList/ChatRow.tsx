@@ -1,0 +1,93 @@
+import { CSSProperties, useRef, useLayoutEffect, memo } from 'react'
+import Image from 'next/image'
+import clsx from 'clsx'
+import chatGPTIcon from '@/assets/icon/chatGPT.svg'
+import userIcon from '@/assets/icon/user.svg'
+import { copyToClipboard } from '@/utils'
+import { Role,MessageItem } from '@/types/openai'
+import MarkDown from '@/components/MarkDown'
+
+const Icon = {
+  [Role.USER]: userIcon,
+  [Role.ASSISTANT]: chatGPTIcon,
+}
+
+type Props = {
+  index: number
+  style: CSSProperties
+  message: MessageItem
+  setRowHeight: (index: number, size: number) => void
+  handleStopResponse: () => void
+  handleRetry: () => void
+}
+
+const ChatRow = ({
+  index,
+  style,
+  message,
+  setRowHeight,
+  handleStopResponse,
+  handleRetry,
+}: Props) => {
+  const rowRef = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    if (rowRef.current) {
+      console.log('===rowRef.current', rowRef.current.getBoundingClientRect().height)
+      setRowHeight(index, rowRef.current.getBoundingClientRect().height)
+    }
+  }, [index])
+
+  const isUser = message.role === Role.USER
+  const isAssistant = message.role === Role.ASSISTANT
+
+  return (
+    <div style={style} key={message.id}>
+      <div
+        ref={rowRef}
+        className={clsx(
+          'flex w-9/12 pb-4 mx-auto max-w-4xl relative',
+          isUser && 'flex-row-reverse',
+          isAssistant && 'pb-6'
+        )}
+      >
+        <div
+          className={clsx(
+            'absolute border rounded-md w-9 h-9 top-2 text-green-600',
+            isUser && '-right-12',
+            isAssistant && '-left-12'
+          )}
+        >
+          <Image src={Icon[message.role]} alt='chatGPT' />
+        </div>
+        <div
+          className={clsx(
+            'p-4 rounded-xl drop-shadow',
+            isUser ? 'bg-sky-50' : 'bg-white'
+          )}
+        >
+          <MarkDown content={message.content} />
+          {/* {message.content} */}
+        </div>
+        {isAssistant && (
+          <div className='absolute bottom-0 flex text-xs text-slate-400'>
+            <span className='cursor-pointer' onClick={handleStopResponse}>
+              停止回复
+            </span>
+            <span className='mr-2 cursor-pointer' onClick={handleRetry}>
+              重试
+            </span>
+            <span
+              className='cursor-pointer'
+              onClick={() => copyToClipboard(message.content)}
+            >
+              复制
+            </span>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default memo(ChatRow)

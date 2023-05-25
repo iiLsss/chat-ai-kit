@@ -9,9 +9,10 @@ import {
   dracula,
 } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import CopyButton from '@/components/CopyButton'
-import { copyToClipboard} from '@/utils'
 
 import './index.css'
+
+console.log(SyntaxHighlighter.supportedLanguages)
 
 
 const CodeBlock: React.FC<CodeProps> = ({
@@ -22,11 +23,8 @@ const CodeBlock: React.FC<CodeProps> = ({
 	...props
 }) => {
 	const match = /language-(\w+)/.exec(className || '')
-
-  const handleCopy = () => {
-    copyToClipboard(String(children))
-  }
-
+ 
+	
 	return !inline && match ? (
 		<div className='relative code-wrap'>
 			<SyntaxHighlighter
@@ -42,7 +40,11 @@ const CodeBlock: React.FC<CodeProps> = ({
       </div>
 		</div>
 	) : (
-		<code {...props} className={className}>
+		<code {...props} className={className} style={{
+			whiteSpace: 'pre-wrap',
+			wordSpacing: 'normal',
+			wordBreak: 'normal',
+		}}>
 			{children}
 		</code>
 	)

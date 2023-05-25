@@ -1,6 +1,6 @@
 'use client'
 
-import useChatStore, {chatGPTStates} from '@/store/chatGPT'
+import useChatStore from '@/store/chatGPT'
 import './index.css'
 import clsx from 'clsx'
 import { useEffect } from 'react'

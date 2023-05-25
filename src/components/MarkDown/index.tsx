@@ -9,6 +9,7 @@ import RemarkGfm from "remark-gfm";
 // import RemarkEmoji from 'remark-emoji'
 // import RemarkToc from 'remark-toc'
 // import RemarkSlug from 'remark-slug'
+// import RehypeHighlight from "rehype-highlight";
 import CodeBlock from './CodeBlock'
 import 'katex/dist/katex.min.css'
 import './markdown.css'
@@ -26,7 +27,7 @@ const MarkDown: React.FC<MarkDownProps> = ({ content }) => {
           components={{code: CodeBlock}}
           remarkPlugins={[RemarkMath, RemarkGfm, RemarkBreaks]}
           rehypePlugins={[
-            RehypeKatex
+            RehypeKatex,
           ]}
         >
           {content}

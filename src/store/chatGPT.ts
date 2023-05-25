@@ -4,24 +4,8 @@ import { persist } from 'zustand/middleware'
 import { produce, enableMapSet } from 'immer'
 import { sendMessage } from '@/clientApi/openai'
 import { uuid } from '../utils'
-import { Role } from '@/types/openai'
+import { Session, MessageItem, MessageStatus } from '@/types/openai'
 enableMapSet()
-interface Message {
-	id: string
-	object?: string
-	created?: number
-	role: Role
-	content: string
-	finish_reason?: string
-}
-
-interface Session {
-	id: string
-	title: string
-	// createTime: string
-	messages: Message[]
-}
-
 
 export interface chatGPTStates {
 	// 当前激活的session
@@ -33,8 +17,14 @@ export interface chatGPTStates {
 	addSession: () => void
 	// 删除session
 	deleteSession: (sessionId: string) => void
-	// 获取session的回答
-	getSessionAnswer: (value: string) => void
+	// 获取message的回答
+	getMessageAnswer: (value: string) => void
+	// 创建问题消息
+	createMessageQuestion: (value: string) => void
+	// 创建回复消息
+	createMessageAnswer: (obj: Record<string, any>) => void
+	// 更新回复消息
+	updateMessageAnswer: (obj: Record<string, any>, messageId: string) => void
 }
 
 const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
@@ -55,6 +45,7 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 				state.sessionList.set(key, {
 					id: key,
 					title: 'New Chat',
+					model: 'gpt-3.5-turbo',
 					messages: [],
 				})
 				state.currentSessionId = key
@@ -69,68 +60,97 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 			})
 		)
 	},
-	getSessionAnswer: async (value: string) => {
-		const { currentSessionId, sessionList } = get()
-
+	// 增加消息提问
+	createMessageQuestion: (value: string) => {
 		set(
 			produce((state) => {
-				const currentSession = state.sessionList.get(currentSessionId!)
+				const { sessionList, currentSessionId } = state
+				const currentSession = sessionList.get(currentSessionId!)
 				currentSession?.messages.push({
 					id: uuid(),
 					role: 'user',
 					content: value,
 				})
-
 			})
 		)
-
-		try {
-			let replyId = ''
-			await sendMessage(
-				{
-					model: 'gpt-3.5-turbo',
-					messages: [{ role: 'user', content: value }],
-					stream: true,
-				},
-				{
-					onMessage(val) {
-						if (replyId) {
-							set(
-								produce((state) => {
-									const currentSession = state.sessionList.get(
-										currentSessionId!
-									)
-									let currentMessage = currentSession?.messages.find(
-										(item: Message) => item.id === replyId
-									)
-									// console.log(currentMessage)
-									currentMessage.content = val
-								})
-							)
-						} else {
-							replyId = uuid()
-							set(
-								produce((state) => {
-									const currentSession = state.sessionList.get(
-										currentSessionId!
-									)
-									currentSession?.messages.push({
-										id: replyId,
-										role: 'assistant',
-										content: val,
-									})
-								})
-							)
-						}
-					},
+	},
+	createMessageAnswer: (info) => {
+		set(
+			produce((state) => {
+				const { sessionList, currentSessionId } = state
+				const currentSession = sessionList.get(currentSessionId)
+				currentSession?.messages.push({
+					role: 'assistant',
+					...info,
+				})
+			})
+		)
+	},
+	updateMessageAnswer: (info, messageId: string) => {
+		set(
+			produce((state: chatGPTStates) => {
+				const { sessionList, currentSessionId } = state
+				const currentMessages = sessionList.get(currentSessionId)?.messages || []
+				const index = currentMessages.findIndex(item => item.id === messageId)
+				if (index !== -1) {
+					const updatedMessage = { ...currentMessages[index], ...info }
+					currentMessages[index] = updatedMessage
 				}
+			})
+		)
+	},
+	// 获取消息回答
+	getMessageAnswer: async (value: string) => {
+		const { createMessageQuestion, updateMessageAnswer, createMessageAnswer } =
+			get()
+		createMessageQuestion(value)
+
+		let messageId = ''
+		const onMessage = (val: string) => {
+			if (messageId) {
+				updateMessageAnswer(
+					{
+						content: val,
+					},
+					messageId
+				)
+			} else {
+				messageId = uuid()
+				createMessageAnswer({
+					id: messageId,
+					content: val,
+					createTime: Date.now(),
+					status: MessageStatus.RUNNING,
+					question: value,
+				})
+			}
+		}
+
+		const onSuccess = () => {
+			updateMessageAnswer(
+				{
+					status: MessageStatus.SUCCESS,
+				},
+				messageId
 			)
+		}
+		const cancelFetch = (cb: () => void) => {
+			cb()
+		}
+		const option = {
+			model: 'gpt-3.5-turbo',
+			messages: [{ role: 'user', content: value }],
+			stream: true,
+		}
+		try {
+			await sendMessage(option, {
+				onMessage,
+				onSuccess,
+				cancelFetch,
+			})
 		} catch (error) {
 			console.log(error)
 		}
-
-		// const session = chatGPTStore.getState().sessionList.get(chatGPTStore.getState().currentSessionId)
-		// return session?.messages[session.messages.length - 1]
 	},
 })
 
