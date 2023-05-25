@@ -4,7 +4,7 @@ import {requestOpenAI} from '../common'
 
 
 // https://vercel.com/blog/gpt-3-app-next-js-vercel-edge-functions
-export async function handleStream(res: Response) {
+async function handleStream(res: Response) {
   const encoder = new TextEncoder()
   const decoder = new TextDecoder()
 
