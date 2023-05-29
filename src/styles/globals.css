@@ -82,3 +82,26 @@
   top: 80px;
   opacity: 0.15;
 }
+
+/* Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cdd5e0;
+  -webkit-overflow-scrolling: touch; /*开启硬件加速，提高滚动性能*/
+}
+
+/* Chrome, Edge, and Safari */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f0f2f9;
+  border-radius: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #f0f2f9;
+  border-radius: 14px;
+  border: 3px solid #cdd5e0;
+}

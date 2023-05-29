@@ -12,9 +12,6 @@ import CopyButton from '@/components/CopyButton'
 
 import './index.css'
 
-console.log(SyntaxHighlighter.supportedLanguages)
-
-
 const CodeBlock: React.FC<CodeProps> = ({
 	node,
 	inline,

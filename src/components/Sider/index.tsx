@@ -1,10 +1,11 @@
 'use client'
 
 import useChatStore from '@/store/chatGPT'
-import './index.css'
 import clsx from 'clsx'
 import { useEffect } from 'react'
-
+import deleteIcon from '@/assets/icon/delete.svg'
+import './index.css'
+import Image from 'next/image'
 
 const Slider = () => {
 
@@ -28,12 +29,7 @@ const Slider = () => {
 
 	return (
 		<div className='flex flex-col justify-around flex-1 border-r shrink-0 basis-52'>
-			<div className='w-full px-2 pt-2 mb-2'>
-				<div onClick={handleAddSession} className='h-12 leading-[48px] rounded-md mx-auto text-center cursor-pointer hover:bg-neutral-100'>
-					+ New Chat
-				</div>
-			</div>
-			<div className='flex-auto px-2 border-b'>
+			<div className='flex-auto p-2 pr-3 overflow-auto border-b custom-scrollbar'>
 				{[...sessionList].map(([id, session]) => {
 					return (
 						<div
@@ -50,15 +46,18 @@ const Slider = () => {
 								{session.messages.length}条对话
 							</p>
 							<div
-								className='absolute top-0 right-0 hidden text-xs session-item-delete'
+								className='absolute hidden text-xs right-3 top-4 session-item-delete'
 								onClick={() => deleteSession(id)}>
-								删除
+								<Image src={deleteIcon} alt='delete' className='w-4 h-4'></Image>
 							</div>
 						</div>
 					)
 				})}
 			</div>
-			<div className='h-12 p-3'>设置</div>
+			<div className='flex items-center justify-between h-12 p-3 text-sm'>
+				<div >设置</div>
+				<div onClick={handleAddSession}>新增</div>
+			</div>
 		</div>
 	)
 }

@@ -1,0 +1,6 @@
+.item-text{
+  @apply px-2 py-1 mb-2 mr-2 rounded-sm bg-gradient-to-r from-slate-100 to-transparent;
+}
+.sub-title{
+  @apply py-2
+}

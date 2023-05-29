@@ -10,7 +10,7 @@ import chatGPTIcon from '@/assets/icon/chatGPT.svg'
 import userIcon from '@/assets/icon/user.svg'
 import { copyToClipboard } from '@/utils'
 import MessageList from './MessageList'
-import './index.css'
+import Welcome from '../Welcome'
 
 const Icon = {
 	[Role.USER]: userIcon,
@@ -42,14 +42,22 @@ const Chat = () => {
 
 	return (
 		<div className='flex flex-col items-center justify-between w-full h-full'>
-			<div ref={listRef} className='flex-1 w-full overflow-auto custom-scrollbar'>
-				<MessageList
-					list={message}
-					onRetry={handleRetry}
-					onStopResponse={handleStopResponse}
-				/>
-			</div>
-			<InputBox onSubmit={handleSubmit} />
+			{message.length ? (
+				<>
+					<div
+						ref={listRef}
+						className='flex-1 w-full overflow-auto custom-scrollbar'>
+						<MessageList
+							list={message}
+							onRetry={handleRetry}
+							onStopResponse={handleStopResponse}
+						/>
+					</div>
+					<InputBox onSubmit={handleSubmit} />
+				</>
+			) : (
+				<Welcome></Welcome>
+			)}
 		</div>
 	)
 }
