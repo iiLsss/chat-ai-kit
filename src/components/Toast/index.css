@@ -3,9 +3,9 @@
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  /* opacity: 0; */
-  /* animation: slide-up 0.5s cubic-bezier(0.59, 0.21, 0.18, 0.81) forwards, */
-    /* fade-out 0.5s 2.5s ease forwards; */
+  opacity: 0;
+  animation: slide-up 0.5s cubic-bezier(0.59, 0.21, 0.18, 0.81) forwards,
+    fade-out 0.5s 2.5s ease forwards;
 }
 
 .toast-content{
@@ -14,7 +14,7 @@
 
 @keyframes slide-up {
   from {
-    top: 50;
+    top: 50px;
     opacity: 0;
   }
   to {
@@ -28,6 +28,7 @@
     opacity: 1;
   }
   to {
+    top: -30px;
     opacity: 0;
   }
 }

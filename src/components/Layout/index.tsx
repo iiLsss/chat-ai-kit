@@ -1,4 +1,5 @@
 import { ReactNode, PropsWithChildren } from "react"
+import Header from '@/components/Header'
 
 
 type Props = {
@@ -7,12 +8,19 @@ type Props = {
 
 const Layout: React.FC<PropsWithChildren<Props>> = (props) => {
   return (
-    <section className="w-full h-[calc(100vh-56px)] flex">
-      {props.slider}
-      <div className="w-full h-full">
-        {props.children}
-      </div>
-    </section>
+    <>
+      <Header />
+      <section className="w-full h-[calc(100vh-56px)] flex">
+        <section className="hidden md:block">
+          {props.slider}
+        </section>
+        <div className="w-full h-full">
+          {props.children}
+        </div>
+      </section>
+    </>
+     
+   
   )
 }
 

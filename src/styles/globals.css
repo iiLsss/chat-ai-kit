@@ -15,16 +15,10 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
-
-/* body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */
+/* 移动端 body 高度为100vh 时，实际高度超过了视窗高度。 */
+html,body{
+  height:-webkit-fill-available;
+}
 
 .main-background {
   width: 100vw;
@@ -104,4 +98,8 @@
   background-color: #f0f2f9;
   border-radius: 14px;
   border: 3px solid #cdd5e0;
+}
+
+.button {
+  @apply px-4 py-1 mx-auto text-sm tracking-widest text-white rounded-sm bg-violet-500 hover:bg-violet-600;
 }

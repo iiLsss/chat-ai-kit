@@ -1,7 +1,7 @@
 
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
 import Image from 'next/image'
-import sendIcon from '@/assets/icon/send.svg'
+import SendIcon from '@/assets/icon/send.svg'
 
 type Props = {
   onSubmit: (val:string) => void
@@ -12,7 +12,7 @@ const InputBox: React.FC<Props> = ({onSubmit}) => {
   const [value, setValue] = useState('')
 
   const handleSubmit = async () => {
-    onSubmit(value)
+    // onSubmit(value)
     setValue('')
   }
 
@@ -29,16 +29,16 @@ const InputBox: React.FC<Props> = ({onSubmit}) => {
 
 
   return (
-    <div className='flex items-center justify-between w-8/12 p-1 mb-4 text-sm bg-white border rounded-xl focus-within:border-slate-300'>
+    <div className='flex items-center justify-between w-full p-1 text-sm bg-white shadow-lg shadow-top md:border md:mb-4 md:w-8/12 md:rounded-xl focus-within:border-slate-300'>
       <textarea
         value={value}
         onChange={handleChange}
         placeholder='请输入prompt, 按enter发送'
-        className='flex-1 p-1 bg-transparent resize-none outline-0 text-neutral-600'
+        className='flex-1 p-1 bg-transparent border-0 resize-none outline-0 text-neutral-600'
         onKeyDown={handleKeyDown}
       />
       <div onClick={handleSubmit} className='flex items-center justify-center w-8 h-8 mr-2 cursor-pointer'>
-        <Image className='w-6 h-6 text-slate-200' src={sendIcon} alt='send' />
+        <SendIcon className='w-6 h-6 text-gray-600' />
       </div>
     </div>
   )

@@ -10,7 +10,7 @@ import chatGPTIcon from '@/assets/icon/chatGPT.svg'
 import userIcon from '@/assets/icon/user.svg'
 import { copyToClipboard } from '@/utils'
 import MessageList from './MessageList'
-import Welcome from '../Welcome'
+import Empty from './Empty'
 
 const Icon = {
 	[Role.USER]: userIcon,
@@ -56,7 +56,7 @@ const Chat = () => {
 					<InputBox onSubmit={handleSubmit} />
 				</>
 			) : (
-				<Welcome></Welcome>
+				<Empty></Empty>
 			)}
 		</div>
 	)

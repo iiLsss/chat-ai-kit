@@ -1,5 +1,4 @@
 
 .form-input{
-  @apply block w-full py-1 mt-2 border-gray-300 rounded-md shadow-sm focus:border-violet-300 focus:ring focus:ring-violet-200 focus:ring-opacity-50;
-  font-size: 14px;
+  @apply block w-full py-1 mt-2 text-base border-gray-300 rounded-md shadow-sm md:text-sm focus:border-violet-300 focus:ring focus:ring-violet-200 focus:ring-opacity-50;
 }

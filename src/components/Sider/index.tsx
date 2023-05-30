@@ -3,7 +3,8 @@
 import useChatStore from '@/store/chatGPT'
 import clsx from 'clsx'
 import { useEffect } from 'react'
-import deleteIcon from '@/assets/icon/delete.svg'
+import DeleteIcon from '@/assets/icon/delete.svg'
+import Setting from '@/assets/icon/setting.svg'
 import './index.css'
 import Image from 'next/image'
 
@@ -48,14 +49,18 @@ const Slider = () => {
 							<div
 								className='absolute hidden text-xs right-3 top-4 session-item-delete'
 								onClick={() => deleteSession(id)}>
-								<Image src={deleteIcon} alt='delete' className='w-4 h-4'></Image>
+									<DeleteIcon />
+								{/* <Image src={deleteIcon} alt='delete' className='w-4 h-4'></Image> */}
 							</div>
 						</div>
 					)
 				})}
 			</div>
-			<div className='flex items-center justify-between h-12 p-3 text-sm'>
-				<div >设置</div>
+			<div className='flex items-center justify-between h-12 p-3 text-sm text-gray-500'>
+				<div className='flex items-center cursor-pointer hover:text-gray-700'>
+					<Setting className='w-4 h-4 mr-0.5' /> 
+					<span >设置</span>
+				</div>
 				<div onClick={handleAddSession}>新增</div>
 			</div>
 		</div>

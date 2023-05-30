@@ -2,19 +2,19 @@ import { useRef, useEffect, CSSProperties } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
 import MarkDown from '../MarkDown'
-import chatGPTIcon from '@/assets/icon/chatGPT.svg'
+import ChatGPTIcon from '@/assets/icon/chatGPT.svg'
 import userIcon from '@/assets/icon/user.svg'
-import retryIcon from '@/assets/icon/retry.svg'
+import RetryIcon from '@/assets/icon/retry.svg'
 import { copyToClipboard } from '@/utils'
 import { Role, MessageItem, MessageStatus } from '@/types/openai'
 
 interface IconProps {
-	[key: string]: string
+	[key: string]: React.ReactNode
 }
 
 const Icon: IconProps = {
-	[Role.USER]: userIcon,
-	[Role.ASSISTANT]: chatGPTIcon,
+	[Role.USER]: <RetryIcon />,
+	[Role.ASSISTANT]: <RetryIcon />,
 }
 
 
@@ -41,7 +41,9 @@ const Message = ({ item , onRetry, onStopResponse }:Props) => {
 					isUser ? '-right-12' : '',
 					isASSISTANT ? '-left-12' : ''
 				)}>
-				<Image src={Icon[item.role]} alt='chatGPT'></Image>
+					{
+						Icon[item.role]
+					}
 			</div>
 			<div
 				className={clsx(

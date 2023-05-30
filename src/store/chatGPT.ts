@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware'
 import { produce, enableMapSet } from 'immer'
 import { sendMessage } from '@/clientApi/openai'
 import { uuid } from '../utils'
-import { Session, MessageItem, MessageStatus } from '@/types/openai'
+import { Session, MessageStatus } from '@/types/openai'
 enableMapSet()
 
 export interface chatGPTStates {
@@ -26,6 +26,7 @@ export interface chatGPTStates {
 	// 更新回复消息
 	updateMessageAnswer: (obj: Record<string, any>, messageId: string) => void
 }
+
 
 const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 	sessionList: new Map(),
