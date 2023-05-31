@@ -12,7 +12,7 @@ const InputBox: React.FC<Props> = ({onSubmit}) => {
   const [value, setValue] = useState('')
 
   const handleSubmit = async () => {
-    // onSubmit(value)
+    onSubmit(value)
     setValue('')
   }
 
