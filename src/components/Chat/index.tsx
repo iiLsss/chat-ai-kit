@@ -18,8 +18,8 @@ const Icon = {
 }
 
 const Chat = () => {
-	const { sessionList, currentSessionId, getMessageAnswer } = useChatStore()
-	const message = sessionList.get(currentSessionId)?.messages || []
+	const { sessionList, currentSessionId, addSession, getMessageAnswer } = useChatStore()
+	const message = sessionList.get(currentSessionId)?.messages ?? []
 
 	const listRef = useRef<HTMLDivElement>(null)
 	const handleSubmit = (val: string) => {
@@ -34,31 +34,25 @@ const Chat = () => {
 		console.log('retry')
 	}
 
+	const handleAddSession = (content?:string) => {
+		addSession(content)
+	}
+
 	useEffect(() => {
 		if (listRef.current) {
 			listRef.current.scrollTop = listRef.current.scrollHeight
 		}
 	}, [message])
 
-	return (
+	return message.length ? (
 		<div className='flex flex-col items-center justify-between w-full h-full'>
-			{message.length ? (
-				<>
-					<div
-						ref={listRef}
-						className='flex-1 w-full overflow-auto custom-scrollbar'>
-						<MessageList
-							list={message}
-							onRetry={handleRetry}
-							onStopResponse={handleStopResponse}
-						/>
-					</div>
-					<InputBox onSubmit={handleSubmit} />
-				</>
-			) : (
-				<Empty></Empty>
-			)}
+			<div ref={listRef} className='flex-1 w-full overflow-auto custom-scrollbar'>
+				<MessageList list={message} onRetry={handleRetry} onStopResponse={handleStopResponse} />
+			</div>
+			<InputBox onSubmit={handleSubmit} />
 		</div>
+	) : (
+		<Empty onAdd={handleAddSession} />
 	)
 }
 

@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware'
 import { produce, enableMapSet } from 'immer'
 import { sendMessage } from '@/clientApi/openai'
 import { uuid } from '../utils'
-import { Session, MessageStatus } from '@/types/openai'
+import { Session, MessageStatus, Role } from '@/types/openai'
 enableMapSet()
 
 export interface chatGPTStates {
@@ -14,7 +14,7 @@ export interface chatGPTStates {
 	// session列表
 	sessionList: Map<string, Session>
 	// 增加session
-	addSession: () => void
+	addSession: (title?:string) => void
 	// 删除session
 	deleteSession: (sessionId: string) => void
 	// 获取message的回答
@@ -25,6 +25,12 @@ export interface chatGPTStates {
 	createMessageAnswer: (obj: Record<string, any>) => void
 	// 更新回复消息
 	updateMessageAnswer: (obj: Record<string, any>, messageId: string) => void
+}
+
+const defaultSystemMessage = {
+	id: uuid(),
+	role: Role.SYSTEM,
+	content: '你好！ 今天我能为您提供什么帮助？',
 }
 
 
@@ -39,15 +45,20 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 		)
 	},
 	// 增加session
-	addSession: () => {
+	addSession: (content) => {
 		const key = uuid()
 		set(
 			produce((state: chatGPTStates) => {
 				state.sessionList.set(key, {
 					id: key,
-					title: 'New Chat',
+					title: content ?? '新的聊天',
 					model: 'gpt-3.5-turbo',
-					messages: [],
+					messages: [
+						{
+							...defaultSystemMessage,
+							hidden: !!content,
+						}
+					],
 				})
 				state.currentSessionId = key
 			})
