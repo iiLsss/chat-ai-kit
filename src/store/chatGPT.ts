@@ -14,7 +14,7 @@ export interface chatGPTStates {
 	// session列表
 	sessionList: Map<string, Session>
 	// 增加session
-	addSession: (title?:string) => void
+	addSession: (title?: string) => void
 	// 删除session
 	deleteSession: (sessionId: string) => void
 	// 获取message的回答
@@ -33,19 +33,18 @@ const defaultSystemMessage = {
 	content: '你好！ 今天我能为您提供什么帮助？',
 }
 
-
 const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 	sessionList: new Map(),
 	currentSessionId: '',
 	setCurrentSessionId: (sessionId: string) => {
 		set(
-			produce((state) => {
+			produce(state => {
 				state.currentSessionId = sessionId
 			})
 		)
 	},
 	// 增加session
-	addSession: (content) => {
+	addSession: content => {
 		const key = uuid()
 		set(
 			produce((state: chatGPTStates) => {
@@ -53,11 +52,12 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 					id: key,
 					title: content ?? '新的聊天',
 					model: 'gpt-3.5-turbo',
+					streaming: false,
 					messages: [
 						{
 							...defaultSystemMessage,
 							hidden: !!content,
-						}
+						},
 					],
 				})
 				state.currentSessionId = key
@@ -67,15 +67,18 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 	// 删除session
 	deleteSession: (sessionId: string) => {
 		set(
-			produce((state) => {
+			produce(state => {
 				state.sessionList.delete(sessionId)
+				if (state.currentSessionId === sessionId) {
+					state.currentSessionId = state.sessionList.keys().next().value
+				}
 			})
 		)
 	},
 	// 增加消息提问
 	createMessageQuestion: (value: string) => {
 		set(
-			produce((state) => {
+			produce(state => {
 				const { sessionList, currentSessionId } = state
 				const currentSession = sessionList.get(currentSessionId!)
 				currentSession?.messages.push({
@@ -86,15 +89,16 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 			})
 		)
 	},
-	createMessageAnswer: (info) => {
+	createMessageAnswer: info => {
 		set(
-			produce((state) => {
+			produce(state => {
 				const { sessionList, currentSessionId } = state
 				const currentSession = sessionList.get(currentSessionId)
 				currentSession?.messages.push({
 					role: 'assistant',
 					...info,
 				})
+				currentSession.streaming = true
 			})
 		)
 	},
@@ -108,13 +112,15 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 					const updatedMessage = { ...currentMessages[index], ...info }
 					currentMessages[index] = updatedMessage
 				}
+				if (info.status === MessageStatus.SUCCESS) {
+					sessionList.get(currentSessionId)!.streaming = false
+				}
 			})
 		)
 	},
 	// 获取消息回答
 	getMessageAnswer: async (value: string) => {
-		const { createMessageQuestion, updateMessageAnswer, createMessageAnswer } =
-			get()
+		const { createMessageQuestion, updateMessageAnswer, createMessageAnswer } = get()
 		createMessageQuestion(value)
 
 		let messageId = ''
@@ -169,7 +175,7 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 const persistState = persist(chatGPTStateCreator, {
 	name: 'chat-gpt',
 	storage: {
-		getItem: (name) => {
+		getItem: name => {
 			console.log('getItem')
 			const str = localStorage.getItem(name) || '{}'
 			return {
@@ -188,7 +194,7 @@ const persistState = persist(chatGPTStateCreator, {
 			})
 			localStorage.setItem(name, str)
 		},
-		removeItem: (name) => localStorage.removeItem(name),
+		removeItem: name => localStorage.removeItem(name),
 	},
 	skipHydration: true,
 })

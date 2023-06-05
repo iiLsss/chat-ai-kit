@@ -55,7 +55,8 @@ export interface Session {
 	id: string
 	title: string
   model: string
-	// createTime: string
+  streaming: boolean
+	createTime?: string
 	messages: MessageItem[]
 }
 

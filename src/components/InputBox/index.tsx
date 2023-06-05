@@ -4,10 +4,11 @@ import Image from 'next/image'
 import SendIcon from '@/assets/icon/send.svg'
 
 type Props = {
+  streaming?: boolean
   onSubmit: (val:string) => void
 }
 
-const InputBox: React.FC<Props> = ({onSubmit}) => {
+const InputBox: React.FC<Props> = ({streaming= false,onSubmit}) => {
 
   const [value, setValue] = useState('')
 
@@ -36,6 +37,7 @@ const InputBox: React.FC<Props> = ({onSubmit}) => {
         placeholder='请输入prompt, 按enter发送'
         className='flex-1 p-1 bg-transparent border-0 resize-none outline-0 text-neutral-600'
         onKeyDown={handleKeyDown}
+        disabled={streaming}
       />
       <div onClick={handleSubmit} className='flex items-center justify-center w-8 h-8 mr-2 cursor-pointer'>
         <SendIcon className='w-6 h-6 text-gray-600' />
