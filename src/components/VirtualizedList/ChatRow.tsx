@@ -10,6 +10,7 @@ import MarkDown from '@/components/MarkDown'
 const Icon = {
   [Role.USER]: userIcon,
   [Role.ASSISTANT]: chatGPTIcon,
+  [Role.SYSTEM]: chatGPTIcon,
 }
 
 type Props = {

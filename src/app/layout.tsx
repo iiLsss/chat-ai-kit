@@ -23,9 +23,9 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Head>
       <body className={inter.className}>
-        <div className='fixed w-full h-[50%] top-14 -z-10'>
+        {/* <div className='fixed w-full h-[50%] top-14 -z-10'>
           <Image src={background} alt='bg' fill={true}></Image>
-        </div>
+        </div> */}
         {children}
       </body>
     </html>
