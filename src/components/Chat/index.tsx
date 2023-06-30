@@ -7,7 +7,6 @@ import ArrowRight from '@/assets/icon/arrow-right.svg'
 import InputBox from '../InputBox'
 
 import useChatStore from '@/store/chatGPT'
-import useShowSider from '@/store/showSider'
 
 import { Role, Messages } from '@/types/openai'
 import chatGPTIcon from '@/assets/icon/chatGPT.svg'
@@ -23,7 +22,6 @@ const Icon = {
 
 const Chat = () => {
 	const { sessionList, currentSessionId, addSession, getMessageAnswer } = useChatStore()
-	const { setShow, show } = useShowSider()
 	const { messages = [], streaming } = sessionList.get(currentSessionId) ?? {}
 
 	const listRef = useRef<HTMLDivElement>(null)
@@ -43,10 +41,6 @@ const Chat = () => {
 		addSession(content)
 	}
 
-	const handleShowSlider = () => {
-		setShow()
-	}
-
 	useEffect(() => {
 		if (listRef.current) {
 			listRef.current.scrollTop = listRef.current.scrollHeight
@@ -60,11 +54,6 @@ const Chat = () => {
 					<MessageList list={messages} onRetry={handleRetry} onStopResponse={handleStopResponse} />
 				</div>
 				<InputBox onSubmit={handleSubmit} streaming={streaming} />
-			</div>
-			<div
-				onClick={handleShowSlider}
-				className='fixed w-8 md:hidden bottom-72 bg-purple-50 rounded-r-3xl'>
-				<ArrowRight className='w-6 h-6 ml-2 text-purple-600' />
 			</div>
 		</>
 	) : (

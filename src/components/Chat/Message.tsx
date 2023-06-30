@@ -30,7 +30,7 @@ const Message = ({ item, onRetry, onStopResponse }: Props) => {
 		<div className={clsx('flex w-full pb-4 relative ', isUser ? 'flex-row-reverse' : 'pb-6')}>
 			<div
 				className={clsx(
-					'absolute border rounded-md w-9 h-9 flex items-center justify-center top-0 text-green-600',
+					'absolute border rounded-md w-9 h-9 flex items-center justify-center top-0 text-green-600 bg-white',
 					isUser ? '-right-10 md:-right-12' : '-left-10 md:-left-12'
 				)}>
 				{Icon[item.role]}

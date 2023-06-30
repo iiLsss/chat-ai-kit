@@ -3,6 +3,7 @@ import { useRef } from 'react'
 import Sider from '@/components/Sider'
 import Chat from '@/components/Chat'
 import Header from '@/components/Header'
+import MenuIcon from '@/assets/icon/menu.svg'
 // import VariableSizeList from '@/components/VirtualizedList/Chat'
 import clsx from 'clsx'
 import useShowSider from '@/store/showSider'
@@ -19,20 +20,27 @@ export default function Main() {
 	return (
 		<>
 			<Header />
+			<div className='fixed top-0 right-0 flex items-center w-full bg-white h-14'>
+				<div onClick={() => setShow()} className='flex items-center justify-center w-12 h-12'>
+					<MenuIcon className="" />
+				</div>
+				<div>标题</div>
+			</div>
 			<section className='w-full h-[calc(100vh-56px)] flex'>
 				{/* pc */}
-				<section className='hidden md:block'>
+				{/* <section className='hidden md:block'>
 					<Sider />
-				</section>
+				</section> */}
 				{/* mobile */}
 				<section
           ref={maskRef}
           onClick={handleCloseSider}
+					style={{animationDuration: '200ms'}}
 					className={clsx(
-						'fixed bottom-0 left-0 right-0 z-20 w-full bg-black/25 md:hidden top-14 pr-[55%] shadow-left',
-						show ? 'block' : 'hidden'
+						'animate__animated fixed bottom-0 left-0 right-0 z-20 w-full bg-black/25 md:hidden top-14 pr-[55%] shadow-left',
+						show ? 'animate__slideInLeft' : 'animate__slideOutLeft'
 					)}>
-					<Sider />
+						<Sider />
 				</section>
 
 				<div className='w-full h-full'>

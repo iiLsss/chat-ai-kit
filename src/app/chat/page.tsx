@@ -1,9 +1,9 @@
-import Main from '@/components/Main'
+import ChatMain from '@/components/ChatMain'
 
 export default function Home() {
   return (
     <main className='w-full h-screen overflow-hidden text-gray-800'>
-      <Main />
+      <ChatMain />
     </main>
   )
 }
