@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { VariableSizeList } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import ChatRow from './ChatRow'
+import ChatRow from './ChatRow.tsx.back'
 import { MessageItem } from '@/types/openai'
 
 
@@ -43,29 +43,30 @@ const ChatList = ({ message, handleStopResponse, handleRetry }: Props) => {
   }, [message])
 
   return (
-    <AutoSizer style={{ width: '100%', height: '100%' }}>
-      {({ height, width }) => (
-        <VariableSizeList
-          itemCount={message.length}
-          itemSize={getRowHeight}
-          height={height as number}
-          width={width as number}
-          overscanCount={5}
-          ref={listRef}
-        >
-          {({ index, style }) => (
-            <ChatRow
-              index={index}
-              style={style}
-              message={message[index]}
-              setRowHeight={setRowHeight}
-              handleStopResponse={handleStopResponse}
-              handleRetry={handleRetry}
-            />
-          )}
-        </VariableSizeList>
-      )}
-    </AutoSizer>
+    // <AutoSizer style={{ width: '100%', height: '100%' }}>
+    //   {({ height, width }) => (
+    //     <VariableSizeList
+    //       itemCount={message.length}
+    //       itemSize={getRowHeight}
+    //       height={height as number}
+    //       width={width as number}
+    //       overscanCount={5}
+    //       ref={listRef}
+    //     >
+    //       {({ index, style }) => (
+    //         <ChatRow
+    //           index={index}
+    //           style={style}
+    //           message={message[index]}
+    //           setRowHeight={setRowHeight}
+    //           handleStopResponse={handleStopResponse}
+    //           handleRetry={handleRetry}
+    //         />
+    //       )}
+    //     </VariableSizeList>
+    //   )}
+    // </AutoSizer>
+    ''
   )
 }
 
