@@ -11,7 +11,7 @@ interface IconProps {
 }
 
 const Icon: IconProps = {
-	[Role.USER]: <QuillIcon className='w-8 h-8 text-purple-400' />,
+	[Role.USER]: <QuillIcon className='w-8 h-8 text-gray-700' />,
 	[Role.ASSISTANT]: <ChatGPTIcon className='w-8 h-8 text-emerald-500' />,
 	[Role.SYSTEM]: <ChatGPTIcon className='w-8 h-8 text-emerald-500' />,
 }

@@ -44,7 +44,7 @@ const InputBox: React.FC<Props> = ({ streaming = false, onSubmit }) => {
 				onClick={handleSubmit}
 				className='flex items-center justify-center w-8 h-8 mr-2 cursor-pointer'>
 				{!streaming ? (
-					<SendIcon className='w-6 h-6 text-gray-600' />
+					<SendIcon className='w-6 h-6 text-purple-600' />
 				) : (
 					<div className='w-6 h-6 cssload-loader'>
 						<div className='cssload-inner cssload-one'></div>
