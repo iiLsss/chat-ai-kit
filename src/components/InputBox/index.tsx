@@ -21,6 +21,7 @@ const InputBox: React.FC<Props> = ({ streaming = false, onSubmit }) => {
 	}
 
 	const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+		if (streaming) return
 		if (e.key === 'Enter' && !e.shiftKey) {
 			e.preventDefault() // 阻止默认行为
 			handleSubmit() // 提交数据
@@ -45,7 +46,7 @@ const InputBox: React.FC<Props> = ({ streaming = false, onSubmit }) => {
 				{!streaming ? (
 					<SendIcon className='w-6 h-6 text-gray-600' />
 				) : (
-					<div className='cssload-loader'>
+					<div className='w-6 h-6 cssload-loader'>
 						<div className='cssload-inner cssload-one'></div>
 						<div className='cssload-inner cssload-two'></div>
 						<div className='cssload-inner cssload-three'></div>

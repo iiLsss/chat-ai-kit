@@ -4,6 +4,7 @@ import Sider from '@/components/Sider'
 import Chat from '@/components/Chat'
 import Header from '@/components/Header'
 import MenuIcon from '@/assets/icon/menu.svg'
+import CloseIcon from '@/assets/icon/close-line.svg'
 // import VariableSizeList from '@/components/VirtualizedList/Chat'
 import clsx from 'clsx'
 import useShowSider from '@/store/showSider'
@@ -37,9 +38,13 @@ export default function Main() {
           onClick={handleCloseSider}
 					style={{animationDuration: '200ms'}}
 					className={clsx(
-						'animate__animated fixed bottom-0 left-0 right-0 z-20 w-full bg-black/25 md:hidden top-14 pr-[55%] shadow-left',
+						'animate__animated fixed bottom-0 left-0 right-0 z-20 w-full bg-black/25 md:hidden top-0 pr-[35%] shadow-left pt-14',
 						show ? 'animate__slideInLeft' : 'animate__slideOutLeft'
 					)}>
+						<div className='fixed top-0 left-0 w-[65%] flex items-center justify-between p-2 bg-white border-b h-14'>
+							<span>会话列表</span>	
+							<CloseIcon onClick={() => setShow()} />
+						</div>
 						<Sider />
 				</section>
 
