@@ -65,26 +65,26 @@ const Empty = ({onAdd}: Props) => {
 
 	return (
 		<div className='w-full h-full'>
-			<p className='my-2 text-center text-transparent bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 bg-clip-text'>
+			<p className='my-2 text-lg text-center text-transparent bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 bg-clip-text'>
 				Chat生产力提示词，点击卡片快速开启
 			</p>
 			<div className='overflow-y-auto h-[calc(100vh-132px)] p-3'>
 				<div className='grid grid-cols-2 gap-4 '>
 					{tips.map((item, index) => (
-						<div key={index} className='p-3 shadow' onClick={() => onAdd(item.content)}>
+						<div key={index} className='p-3 bg-white rounded shadow' onClick={() => onAdd(item.content)}>
 							<div className='flex flex-col justify-start'>
-								<p className='mb-1 text-sm text-gray-500'>{item.title}</p>
-								<p className='text-xs text-gray-400'>{item.content}</p>
+								<p className='mb-1 text-gray-500 text'>{item.title}</p>
+								<p className='text-sm text-gray-400'>{item.content}</p>
 							</div>
 						</div>
 					))}
 				</div>
 			</div>
 
-			<div className='fixed bottom-0 left-0 right-0 w-full bg-white h-11 shadow-top'>
-				<div className='flex items-center justify-end w-full h-full pr-2'>
-					<span className='mr-2 text-sm text-gray-500'>不采用提示词，直接</span>
-					<button className='button' onClick={() => onAdd()}>开启聊天</button>
+			<div className='fixed bottom-0 left-0 right-0 w-full h-16 bg-white shadow-top'>
+				<div className='flex items-center justify-end w-full h-full pr-4'>
+					<span className='mr-2 text-gray-500 text'>不使用提示词，直接</span>
+					<button className='text-lg button' onClick={() => onAdd()}>开启聊天</button>
 				</div>
 			</div>
 		</div>

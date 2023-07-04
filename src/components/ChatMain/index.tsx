@@ -21,7 +21,7 @@ export default function Main() {
 	return (
 		<>
 			<Header />
-			<div className='fixed top-0 right-0 flex items-center w-full bg-white h-14'>
+			<div className='fixed top-0 right-0 flex items-center w-full bg-white border-b h-14'>
 				<div onClick={() => setShow()} className='flex items-center justify-center w-12 h-12'>
 					<MenuIcon className="" />
 				</div>
@@ -41,7 +41,7 @@ export default function Main() {
 						'animate__animated fixed bottom-0 left-0 right-0 z-20 w-full bg-black/25 md:hidden top-0 pr-[35%] shadow-left pt-14',
 						show ? 'animate__slideInLeft' : 'animate__slideOutLeft'
 					)}>
-						<div className='fixed top-0 left-0 w-[65%] flex items-center justify-between p-2 bg-white border-b h-14'>
+						<div className='fixed top-0 left-0 w-[65%] flex items-center justify-between p-2 bg-white shadow h-14'>
 							<span>会话列表</span>	
 							<CloseIcon onClick={() => setShow()} />
 						</div>

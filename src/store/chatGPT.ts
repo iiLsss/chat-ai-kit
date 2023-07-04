@@ -56,6 +56,7 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 					messages: [
 						{
 							...defaultSystemMessage,
+							createTime: Date.now(),
 							hidden: !!content,
 						},
 					],
@@ -85,10 +86,12 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 					id: uuid(),
 					role: 'user',
 					content: value,
+					createTime: Date.now(),
 				})
 			})
 		)
 	},
+	// 增加消息回答
 	createMessageAnswer: info => {
 		set(
 			produce(state => {
@@ -102,6 +105,7 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 			})
 		)
 	},
+	// 更新消息回答
 	updateMessageAnswer: (info, messageId: string) => {
 		set(
 			produce((state: chatGPTStates) => {

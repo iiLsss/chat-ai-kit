@@ -34,7 +34,7 @@ export default function Home() {
                   </div>
                   <div className='flex-1 h-24 ml-2'>
                     <div className='w-24 text-2xl '>{item.name}</div>
-                    <div className='text-xs'>{item.desc}</div>
+                    <div className='text-sm'>{item.desc}</div>
                   </div>
                 </div>
               </Link>

@@ -21,7 +21,7 @@ type MarkDownProps = {
 
 const MarkDown: React.FC<MarkDownProps> = ({ content }) => {
   return (
-    <div className='text-xs markdown-body'>
+    <div className='text markdown-body'>
       <Suspense >
         <ReactMarkdown 
           components={{code: CodeBlock}}

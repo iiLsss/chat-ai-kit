@@ -10,7 +10,7 @@ interface Props{
 
 const MessageList = ({ list, onStopResponse, onRetry }: Props) => {
 	return (
-		<div className='w-9/12 max-w-4xl mx-auto my-3'>
+		<div className='w-full mx-auto my-3 md:w-9/12 md:max-w-4xl'>
 			{list.map((item) => (
 				<Message item={item} key={item.id} onRetry={onRetry} onStopResponse={onStopResponse} />
 			))}

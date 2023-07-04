@@ -29,7 +29,8 @@ const CodeBlock: React.FC<CodeProps> = ({
 				style={oneLight}
 				language={match[1]}
 				wrapLongLines={true}
-				PreTag='div'>
+				PreTag='div'
+			>
 				{String(children).replace(/\n$/, '')}
 			</SyntaxHighlighter>
       <div className='hidden copy-wrap' >

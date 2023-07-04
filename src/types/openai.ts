@@ -36,7 +36,7 @@ export interface MessageItem {
   // 对象
 	object?: string
   // 创建时间
-	created?: number
+	createTime?: number
   // 角色
 	role: Role
   // 消息内容

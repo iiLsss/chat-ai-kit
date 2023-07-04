@@ -71,7 +71,7 @@ const ChatRow = ({
           {/* {message.content} */}
         </div>
         {isAssistant && (
-          <div className='absolute bottom-0 flex text-xs text-slate-400'>
+          <div className='absolute bottom-0 flex text-sm text-slate-400'>
             <span className='cursor-pointer' onClick={handleStopResponse}>
               停止回复
             </span>

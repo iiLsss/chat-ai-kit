@@ -45,9 +45,9 @@ const Slider = () => {
 							key={id}
 							onClick={e => handleSelectSession(e, id)}>
 							<p>{session.title}</p>
-							<p className='text-xs text-slate-400'>{session.messages.length}条对话</p>
+							<p className='text-sm text-slate-400'>{session.messages.length}条对话</p>
 							<div
-								className='absolute text-xs right-3 top-4 session-item-delete'
+								className='absolute text-sm right-3 top-4 session-item-delete'
 								onClick={e => handleDeleteSession(e, id)}>
 								<DeleteIcon className='w-4 h-4' />
 							</div>
