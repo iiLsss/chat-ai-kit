@@ -4,34 +4,17 @@ import { persist } from 'zustand/middleware'
 import { produce, enableMapSet } from 'immer'
 import { sendMessage } from '@/clientApi/openai'
 import { uuid } from '../utils'
-import { Session, MessageStatus, Role } from '@/types/openai'
+import { chatGPTStates, MessageStatus, Role } from '@/types/openai'
 enableMapSet()
 
-export interface chatGPTStates {
-	// 当前激活的session
-	currentSessionId: string
-	setCurrentSessionId: (sessionId: string) => void
-	// session列表
-	sessionList: Map<string, Session>
-	// 增加session
-	addSession: (title?: string) => void
-	// 删除session
-	deleteSession: (sessionId: string) => void
-	// 获取message的回答
-	getMessageAnswer: (value: string) => void
-	// 创建问题消息
-	createMessageQuestion: (value: string) => void
-	// 创建回复消息
-	createMessageAnswer: (obj: Record<string, any>) => void
-	// 更新回复消息
-	updateMessageAnswer: (obj: Record<string, any>, messageId: string) => void
-}
 
 const defaultSystemMessage = {
 	id: uuid(),
 	role: Role.SYSTEM,
 	content: '你好！ 今天我能为您提供什么帮助？',
 }
+
+const defaultTitle = '新的对话'
 
 const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 	sessionList: new Map(),
@@ -50,9 +33,10 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 			produce((state: chatGPTStates) => {
 				state.sessionList.set(key, {
 					id: key,
-					title: content ?? '新的聊天',
+					title: content ?? defaultTitle,
 					model: 'gpt-3.5-turbo',
 					streaming: false,
+					createTime: Date.now(),
 					messages: [
 						{
 							...defaultSystemMessage,
@@ -69,9 +53,12 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 	deleteSession: (sessionId: string) => {
 		set(
 			produce(state => {
+				let ids = [...state.sessionList.keys()]
+				let index = ids.indexOf(sessionId) 
+				let nextIndex = (index + 1) % ids.length
 				state.sessionList.delete(sessionId)
 				if (state.currentSessionId === sessionId) {
-					state.currentSessionId = state.sessionList.keys().next().value
+					state.currentSessionId = ids[nextIndex]
 				}
 			})
 		)
@@ -124,7 +111,7 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 	},
 	// 获取消息回答
 	getMessageAnswer: async (value: string) => {
-		const { createMessageQuestion, updateMessageAnswer, createMessageAnswer } = get()
+		const { sessionList, currentSessionId ,createMessageQuestion, updateMessageAnswer, createMessageAnswer } = get()
 		createMessageQuestion(value)
 
 		let messageId = ''
@@ -149,6 +136,10 @@ const chatGPTStateCreator: StateCreator<chatGPTStates> = (set, get) => ({
 		}
 
 		const onSuccess = () => {
+			const currentSession = sessionList.get(currentSessionId)
+			if (currentSession?.title === defaultTitle){
+				// TODO：如果是新的对话，就更新title 
+			}
 			updateMessageAnswer(
 				{
 					status: MessageStatus.SUCCESS,

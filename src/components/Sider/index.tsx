@@ -39,17 +39,20 @@ const Slider = () => {
 					return (
 						<div
 							className={clsx(
-								'text-sm md:text-base relative mb-2 cursor-pointer session-item py-1 px-2 rounded-md text-slate-700 ',
-								currentSessionId === id ? 'text-blue-500 bg-sky-50' : 'hover:bg-neutral-100'
+								'text-lg md:text-base relative mb-2 md:cursor-pointer session-item p-2 rounded-md text-slate-700 bg-gray-50',
+								currentSessionId === id ? 'text-blue-500 bg-sky-100' : 'hover:bg-neutral-100'
 							)}
 							key={id}
 							onClick={e => handleSelectSession(e, id)}>
 							<p>{session.title}</p>
-							<p className='text-sm text-slate-400'>{session.messages.length}条对话</p>
+							<p className='flex items-center justify-between mt-2 text-sm text-slate-400'> 
+								<span>{session.messages.length}条对话</span>
+								<span>{new Date(session.createTime).toLocaleString()}</span>
+							</p>
 							<div
-								className='absolute text-sm right-3 top-4 session-item-delete'
+								className='absolute text-sm right-3 top-3 session-item-delete md:cursor-pointer'
 								onClick={e => handleDeleteSession(e, id)}>
-								<DeleteIcon className='w-4 h-4' />
+								<DeleteIcon className='w-5 h-5 text-gray-500' />
 							</div>
 						</div>
 					)

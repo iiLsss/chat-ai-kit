@@ -8,9 +8,13 @@ import CloseIcon from '@/assets/icon/close-line.svg'
 // import VariableSizeList from '@/components/VirtualizedList/Chat'
 import clsx from 'clsx'
 import useShowSider from '@/store/showSider'
+import useChatStore from '@/store/chatGPT'
 
 export default function Main() {
 	const { show, setShow } = useShowSider()
+	const { sessionList, currentSessionId, addSession, getMessageAnswer } = useChatStore()
+	const { title } = sessionList.get(currentSessionId) ?? {}
+
   const maskRef = useRef<HTMLDivElement>(null)
 	const handleCloseSider = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === maskRef.current ) {
@@ -25,7 +29,7 @@ export default function Main() {
 				<div onClick={() => setShow()} className='flex items-center justify-center w-12 h-12'>
 					<MenuIcon className="" />
 				</div>
-				<div>标题</div>
+				<div>{title}</div>
 			</div>
 			<section className='w-full h-[calc(100vh-56px)] flex'>
 				{/* pc */}
@@ -42,7 +46,7 @@ export default function Main() {
 						show ? 'animate__slideInLeft' : 'animate__slideOutLeft'
 					)}>
 						<div className='fixed top-0 left-0 w-[65%] flex items-center justify-between p-2 bg-white shadow h-14'>
-							<span>会话列表</span>	
+							<span className='text-lg'>会话列表</span>	
 							<CloseIcon onClick={() => setShow()} />
 						</div>
 						<Sider />

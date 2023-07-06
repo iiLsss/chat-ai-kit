@@ -56,7 +56,7 @@ export interface Session {
 	title: string
   model: string
   streaming: boolean
-	createTime?: string
+	createTime: number
 	messages: MessageItem[]
 }
 
@@ -70,4 +70,25 @@ export enum MessageStatus {
   ERROR = 'error',
   // 暂停
   PAUSE = 'pause'
+}
+
+export interface chatGPTStates {
+	// 当前激活的session
+	currentSessionId: string
+  // 设置当前激活的session
+	setCurrentSessionId: (sessionId: string) => void
+	// session列表
+	sessionList: Map<string, Session>
+	// 增加session
+	addSession: (title?: string) => void
+	// 删除session
+	deleteSession: (sessionId: string) => void
+	// 获取message的回答
+	getMessageAnswer: (value: string) => void
+	// 创建问题消息
+	createMessageQuestion: (value: string) => void
+	// 创建回复消息
+	createMessageAnswer: (obj: Record<string, any>) => void
+	// 更新回复消息
+	updateMessageAnswer: (obj: Record<string, any>, messageId: string) => void
 }
