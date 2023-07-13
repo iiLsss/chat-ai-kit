@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     initialScale: 1,
     maximumScale: 1,
     userScalable: false,
+    viewportFit: 'cover'
   },
 }
 
@@ -27,10 +28,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* <Head>
-        <meta http-equiv="Cache-Control" content="no-cache" key="cache-control"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-      </Head> */}
       <body className={`${inter.className} bg-zinc-50`} >
         {/* <div className='fixed w-full h-[50%] top-14 -z-10'>
           <Image src={background} alt='bg' fill={true}></Image>
