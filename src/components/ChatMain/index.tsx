@@ -25,33 +25,42 @@ export default function Main() {
 	return (
 		<>
 			<Header />
-			<div className='fixed top-0 right-0 flex items-center w-full bg-white border-b h-14'>
+			<div className='fixed right-0 flex items-center w-full border-b top-14 h-14'>
+				<div>{title}</div>
 				<div onClick={() => setShow()} className='flex items-center justify-center w-12 h-12'>
 					<MenuIcon className="" />
 				</div>
-				<div>{title}</div>
+			</div>
+		
+
+			{/* mobile */}
+			<div
+				ref={maskRef}
+				onClick={handleCloseSider}
+				className={clsx(
+					'fixed  top-0  bottom-0 left-0 right-0 z-20 w-full h-full  bg-black/25 md:hidden pr-[35%] shadow-left ',
+					show ? 'block' : 'hidden'
+				)}
+			>
+				<div
+					style={{animationDuration: '200ms'}}
+					className={clsx(
+						'animate__animated flex flex-col h-full w-full',
+						show ? 'animate__slideInLeft' : 'animate__slideOutLeft'
+					)}
+				>
+					<div className='flex items-center justify-between p-2 bg-white shadow h-14'>
+						<span className='text-lg'>会话列表</span>	
+						<CloseIcon onClick={() => setShow()} />
+					</div>
+					<Sider />
+				</div>
 			</div>
 			<section className='w-full h-[calc(100vh-56px)] flex'>
 				{/* pc */}
 				{/* <section className='hidden md:block'>
 					<Sider />
 				</section> */}
-				{/* mobile */}
-				<section
-          ref={maskRef}
-          onClick={handleCloseSider}
-					style={{animationDuration: '200ms'}}
-					className={clsx(
-						'animate__animated fixed bottom-0 left-0 right-0 z-20 w-full bg-black/25 md:hidden top-0 pr-[35%] shadow-left pt-14',
-						show ? 'animate__slideInLeft' : 'animate__slideOutLeft'
-					)}>
-						<div className='fixed top-0 left-0 w-[65%] flex items-center justify-between p-2 bg-white shadow h-14'>
-							<span className='text-lg'>会话列表</span>	
-							<CloseIcon onClick={() => setShow()} />
-						</div>
-						<Sider />
-				</section>
-
 				<div className='w-full h-full'>
 					<Chat />
 				</div>

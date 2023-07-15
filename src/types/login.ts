@@ -6,5 +6,6 @@
 // }
 
 export interface LoginBody {
+  name: string
   password: string
 }

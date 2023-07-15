@@ -1,8 +1,5 @@
 'use client'
-import { useRef, useEffect, CSSProperties } from 'react'
-import Image from 'next/image'
-import clsx from 'clsx'
-import ArrowRight from '@/assets/icon/arrow-right.svg'
+import { useRef, useEffect } from 'react'
 
 import InputBox from '../InputBox'
 
@@ -47,18 +44,27 @@ const Chat = () => {
 		}
 	}, [messages])
 
-	return messages.length ? (
-		<>
-			<div className='flex flex-col items-center justify-between w-full h-full'>
-				<div ref={listRef} className='flex-1 w-full overflow-auto custom-scrollbar'>
-					<MessageList list={messages} onRetry={handleRetry} onStopResponse={handleStopResponse} />
-				</div>
-				<InputBox onSubmit={handleSubmit} streaming={streaming} />
+	// return messages.length ? (
+	// 	<>
+	// 		<div className='flex flex-col items-center justify-between w-full h-full'>
+	// 			<div ref={listRef} className='flex-1 w-full overflow-auto custom-scrollbar'>
+	// 				<MessageList list={messages} onRetry={handleRetry} onStopResponse={handleStopResponse} />
+	// 			</div>
+	// 			<InputBox onSubmit={handleSubmit} streaming={streaming} />
+	// 		</div>
+	// 	</>
+	// ) : (
+	// 	<Empty onAdd={handleAddSession}  />
+	// )
+	return  (
+		<div className='flex flex-col items-center justify-between w-full h-full'>
+			<div ref={listRef} className='flex-1 w-full overflow-auto custom-scrollbar'>
+				<MessageList list={messages} onRetry={handleRetry} onStopResponse={handleStopResponse} />
 			</div>
-		</>
-	) : (
-		<Empty onAdd={handleAddSession}  />
+			<InputBox onSubmit={handleSubmit} streaming={streaming} />
+		</div>
 	)
+	
 }
 
 export default Chat
