@@ -6,6 +6,8 @@ import { hashPassword, checkPassword } from '@/utils/bcrypt'
 const CODE = process.env.CODE || 'test'
 
 export async function GET(request: NextRequest) {
+  console.log('authKey');
+
   const authKey = request.cookies.get('sdiqiu_auth')?.value
   if (!authKey) {
     return new NextResponse(JSON.stringify({code: REQUEST_COED.FAIL,  msg: '用户未登录'}))
@@ -19,3 +21,5 @@ export async function GET(request: NextRequest) {
 }
 
 
+
+// src/app/api/user/info/route.ts

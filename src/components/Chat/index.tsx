@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useLayoutEffect } from 'react'
 
 import InputBox from '../InputBox'
 
@@ -37,7 +37,7 @@ const Chat = () => {
 	const handleAddSession = (content?: string) => {
 		addSession(content)
 	}
-
+			
 	useEffect(() => {
 		if (listRef.current) {
 			listRef.current.scrollTop = listRef.current.scrollHeight

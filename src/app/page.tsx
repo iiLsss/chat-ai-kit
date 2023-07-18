@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import chatCover from '../assets/img/chat.png'
 import LoginLink from '@/components/LoginLink'
+import { fetchUserInfo } from '@/clientApi/login'
 
 const list = [{
   name: 'Chat',
@@ -17,7 +18,11 @@ const list = [{
   cover: './img/chat.png'
 }]
 
-export default function Home() {
+
+
+export default async function Home() {
+
+  const res = await fetchUserInfo()
   return (
     <main className='w-full h-screen overflow-hidden text-gray-800 '>
       {/* <Main /> */}

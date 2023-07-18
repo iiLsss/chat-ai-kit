@@ -9,7 +9,7 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 import 'animate.css';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'Chat-kit',
   description: 'Chat-kit by lsss',
   viewport: {
@@ -21,11 +21,15 @@ export const metadata: Metadata = {
   },
 }
 
+
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
+
   return (
     <html lang="en">
       <body className={`${inter.className} bg-zinc-50`} >
@@ -37,3 +41,6 @@ export default function RootLayout({
     </html>
   )
 }
+
+// Path: src/pages/_app.tsx
+

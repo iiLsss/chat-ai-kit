@@ -10,3 +10,9 @@ export const fetchLogin = (body: LoginBody) => {
     body: JSON.stringify(body),
   })
 }
+
+export const fetchUserInfo = () => {
+  return fetch('http://localhost:4010/api/user/info', {
+    method: 'GET'
+  })
+}
