@@ -1,11 +1,11 @@
 import '@/styles/globals.css'
 import { Metadata } from 'next'
 
-// import Head from 'next/head'
-// import Image from 'next/image'
 import { Inter } from 'next/font/google'
-// import clsx from 'clsx'
-// import background from '@/assets/img/background.webp'
+import { cookies } from 'next/headers'
+import useUserStore from '@/store/user'
+import { fetchUserInfo } from '@/clientApi/login'
+
 const inter = Inter({ subsets: ['latin'] })
 import 'animate.css';
 
@@ -21,15 +21,31 @@ const metadata: Metadata = {
   },
 }
 
+async function getUser() {
 
+  let token = cookies().get('sdiqiu_auth')
+  let name = cookies().get('sdiqiu_name')
 
-export default function RootLayout({
+  const res = await fetchUserInfo({
+    headers: {
+      authorization: `bearer ${token?.value}`
+    }
+  })
+  // console.log('========', res);
+  if (res.ok && res.code === 1){
+    return {name}
+  } 
+  return {name: ''}
+}
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-
-
+  // const { setUsername } = useUserStore()
+  let { name } = await getUser()
+  // setUsername(name)
   return (
     <html lang="en">
       <body className={`${inter.className} bg-zinc-50`} >
@@ -41,6 +57,3 @@ export default function RootLayout({
     </html>
   )
 }
-
-// Path: src/pages/_app.tsx
-

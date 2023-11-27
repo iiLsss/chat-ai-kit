@@ -4,25 +4,27 @@ import Link from 'next/link'
 import Image from 'next/image'
 import chatCover from '../assets/img/chat.png'
 import LoginLink from '@/components/LoginLink'
-import { fetchUserInfo } from '@/clientApi/login'
 
-const list = [{
-  name: 'Chat',
-  path: '/chat',
-  desc: 'ChatGPT 是一个人工智能聊天机器人，它可以与人进行自然语言交互，帮助人们解决问题、提供信息和娱乐。',
-  cover: './img/chat.png'
-}, {
-  name: 'Code',
-  path: '/code',
-  desc: '基于ChatGPT进行代码分析、优化',
-  cover: './img/chat.png'
-}]
+const list = [
+  {
+    name: 'ChatGPT',
+    path: '/chat',
+    desc: 'ChatGPT 是一个人工智能聊天机器人，它可以与人进行自然语言交互，帮助人们解决问题、提供信息和娱乐。',
+    cover: './img/chat.png'
+  }, 
+// {
+//   name: 'Code',
+//   path: '/code',
+//   desc: '基于ChatGPT进行代码分析、优化',
+//   cover: './img/chat.png'
+// }
+]
 
 
 
 export default async function Home() {
 
-  const res = await fetchUserInfo()
+
   return (
     <main className='w-full h-screen overflow-hidden text-gray-800 '>
       {/* <Main /> */}

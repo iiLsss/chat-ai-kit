@@ -1,4 +1,3 @@
-
 import clsx from 'clsx'
 import MarkDown from '../MarkDown'
 import Toast from '../Toast'
@@ -28,7 +27,7 @@ interface Props {
 const Message = ({ item, onRetry, onStopResponse }: Props) => {
 	const isUser = item.role === Role.USER
 	const isASSISTANT = item.role === Role.ASSISTANT
-	console.log(item);
+	console.log(item)
 
 	const handleCopy = (data: string) => {
 		Toast({ message: '复制成功', type: 'success' })
@@ -40,46 +39,58 @@ const Message = ({ item, onRetry, onStopResponse }: Props) => {
 			<div
 				className={clsx(
 					'border shrink-0 rounded-md w-9 h-9 flex items-center justify-center top-0 text-green-600 bg-white',
-					isUser? 'ml-2' : 'mr-2 '
-				)}>
+					isUser ? 'ml-2' : 'mr-2 '
+				)}
+			>
 				{Icon[item.role]}
 			</div>
-			<div>
-				<div className='mb-1 text-xs text-gray-500'>{item.createTime && new Date(item.createTime).toLocaleString()}</div>
+			<div className='relative'>
 				<div
-					className={clsx('p-2 md:p-4 rounded-xl drop-shadow ', isUser ? 'bg-sky-50' : 'bg-white')}>
+					className={clsx(
+						'absolute top-0 text-xs text-gray-500 break-keep w-32',
+						isUser ? 'right-0' : 'left-0'
+					)}
+				>
+					{item.createTime && new Date(item.createTime).toLocaleString()}
+				</div>
+				<div
+					className={clsx(
+						'mt-5 p-2 md:p-4 rounded-xl drop-shadow ',
+						isUser ? 'bg-sky-50' : 'bg-white'
+					)}
+				>
 					<MarkDown content={item.content} />
 				</div>
 				{isASSISTANT && (
-				<div className='flex mt-1 text-gray-400 text'>
-					{item.status === MessageStatus.RUNNING && (
-						<span
-							className='md:cursor-pointer focus:text-gray-700'
-							onClick={() => onStopResponse(item.id)}>
-							停止回复
-						</span>
-					)}
-					{item.status === MessageStatus.SUCCESS && (
-						<>
-							{/* <div
+					<div className='flex mt-1 text-gray-400 text'>
+						{item.status === MessageStatus.RUNNING && (
+							<span
+								className='md:cursor-pointer focus:text-gray-700'
+								onClick={() => onStopResponse(item.id)}
+							>
+								停止回复
+							</span>
+						)}
+						{item.status === MessageStatus.SUCCESS && (
+							<>
+								{/* <div
 								className='flex items-center ml-2 mr-4 md:cursor-pointer focus:text-gray-700'
 								onClick={() => onRetry(item.id)}>
 								<RefreshIcon className="w-4 h-4 mr-1" />
 								<span>重试</span>
 							</div> */}
-							<div
-								className='flex items-center md:cursor-pointer focus:text-gray-700'
-								onClick={() => handleCopy(item.content)}>
-								<CopyIcon className="w-4 h-4 mr-1" />
-								<span>复制</span>
-							</div>
-						</>
-					)}
-				</div>
-			)}
+								<div
+									className='flex items-center md:cursor-pointer focus:text-gray-700'
+									onClick={() => handleCopy(item.content)}
+								>
+									<CopyIcon className='w-4 h-4 mr-1' />
+									<span>复制</span>
+								</div>
+							</>
+						)}
+					</div>
+				)}
 			</div>
-			
-			
 		</div>
 	)
 }

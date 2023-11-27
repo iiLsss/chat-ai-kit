@@ -4,7 +4,7 @@ import { hashPassword } from '@/utils/bcrypt'
 const { CODE } = process.env
 
 export async function POST(request: NextRequest) {
-  const {name,password} = await request.json();
+  const {name, password} = await request.json();
   if (password === CODE) {
     const response = new NextResponse(JSON.stringify({code: REQUEST_COED.SUCCESS,  msg: '登录成功'}))
     const auth = await hashPassword(password)

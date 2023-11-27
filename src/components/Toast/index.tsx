@@ -14,7 +14,7 @@ import './index.css'
 const Comp: React.FC<ToastProps> = ({type, message}) => {
   return (
     <div className={`toast`}>
-      <div className='flex items-center p-2 px-3 text-sm rounded toast-content' role="alert">
+      <div className='flex items-center p-2 px-3 text-sm bg-white rounded toast-content' role="alert">
         <span className="mr-2">
           {
             type === 'success' && <Success className={`w-4 h-4 fill-current text-green-500`} />

@@ -10,8 +10,10 @@ import clsx from 'clsx'
 import useShowSider from '@/store/showSider'
 import useChatStore from '@/store/chatGPT'
 
-export default function Main() {
-	const { show, setShow } = useShowSider()
+
+export default function Home() {
+
+  const { show, setShow } = useShowSider()
 	const { sessionList, currentSessionId, addSession, getMessageAnswer } = useChatStore()
 	const { title } = sessionList.get(currentSessionId) ?? {}
 
@@ -21,19 +23,16 @@ export default function Main() {
 		  setShow()
     }
 	}
-
-	return (
-		<>
-			<Header />
+  return (
+    <main className='w-full h-screen overflow-hidden text-gray-800'>
+      <Header />
 			<div className='fixed right-0 flex items-center w-full border-b top-14 h-14'>
 				<div>{title}</div>
 				<div onClick={() => setShow()} className='flex items-center justify-center w-12 h-12'>
 					<MenuIcon className="" />
 				</div>
 			</div>
-		
 
-			{/* mobile */}
 			<div
 				ref={maskRef}
 				onClick={handleCloseSider}
@@ -57,14 +56,12 @@ export default function Main() {
 				</div>
 			</div>
 			<section className='w-full h-[calc(100vh-56px)] flex'>
-				{/* pc */}
-				{/* <section className='hidden md:block'>
-					<Sider />
-				</section> */}
 				<div className='w-full h-full'>
 					<Chat />
 				</div>
 			</section>
-		</>
-	)
+    </main>
+  )
 }
+
+
